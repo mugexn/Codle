@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Codle</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>C<span>O</span>DLE</h1>
+      <nav>
+        <button id="navPlay" class="active">Play</button>
+        <button id="navMake">Create</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- PLAY TAB -->
+      <section id="play" class="tab active">
+        <select id="actSelect" aria-label="Choose activity"></select>
+
+        <div class="navwords">
+          <button class="arrow" id="prevBtn" aria-label="Previous word">
+            ◀
+          </button>
+          <div id="wordLabel"></div>
+          <button class="arrow" id="nextBtn" aria-label="Next word">▶</button>
+        </div>
+
+        <div class="card">
+          <h3>Clues</h3>
+          <ol class="clues" id="clueList"></ol>
+        </div>
+
+        <!-- The invisible input sits on top of the board. Tapping the board
+             focuses it, which opens the device keyboard on phones/tablets. -->
+        <div class="board-wrap">
+          <div id="board"></div>
+          <input
+            type="text"
+            id="typer"
+            aria-label="Type your guess"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="characters"
+            spellcheck="false"
+            enterkeyhint="done"
+          />
+        </div>
+        <div id="msg"></div>
+        <div class="hint">Tap the board to type, then press Enter</div>
+
+        <div class="row" style="justify-content: center">
+          <button class="btn sec" id="restartBtn">Restart word</button>
+          <button class="btn sec" id="impBtn1">⬆ Import file</button>
+        </div>
+      </section>
+
+      <!-- CREATE TAB -->
+      <section id="make" class="tab">
+        <div class="card">
+          <h3 id="formTitle">New activity</h3>
+          <label for="aName">Activity name or number</label>
+          <input
+            type="text"
+            id="aName"
+            placeholder="e.g. Activity 1 or JavaScript basics"
+            maxlength="50"
+          />
+
+          <hr />
+          <h3 id="wordFormTitle">Add a hidden word</h3>
+          <label for="mWord">Hidden word (letters only, 3–12)</label>
+          <input
+            type="text"
+            id="mWord"
+            placeholder="e.g. ARRAY"
+            maxlength="12"
+            autocapitalize="characters"
+            autocomplete="off"
+          />
+          <label for="mClues">Clues (one per line)</label>
+          <textarea
+            id="mClues"
+            placeholder="A list-like structure&#10;Uses square brackets in JS"
+          ></textarea>
+          <div class="row">
+            <button class="btn sec" id="addWordBtn">+ Add word</button>
+            <button class="btn sec" id="cancelWordBtn" style="display: none">
+              Cancel word edit
+            </button>
+          </div>
+          <div id="wordErr" class="err"></div>
+
+          <hr />
+          <h3>Words in this activity</h3>
+          <div id="draftList"></div>
+
+          <div class="row">
+            <button class="btn" id="saveActBtn">Save activity</button>
+            <button class="btn sec" id="cancelActBtn" style="display: none">
+              Cancel edit
+            </button>
+          </div>
+          <div id="actErr" class="err"></div>
+        </div>
+
+        <div class="card">
+          <h3>Your activities</h3>
+          <div id="actList"></div>
+          <div class="row">
+            <button class="btn sec" id="dlAllBtn">⬇ Download all</button>
+            <button class="btn sec" id="impBtn2">⬆ Import file</button>
+          </div>
+        </div>
+      </section>
+
+      <input type="file" id="impFile" accept=".json,application/json" hidden />
+    </main>
+
+    <footer>Developed by <strong>MUGEXN</strong></footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

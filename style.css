@@ -1,0 +1,353 @@
+:root {
+  --bg: #121213;
+  --panel: #1c1c1e;
+  --text: #f4f4f5;
+  --muted: #8b8b93;
+  --border: #3a3a3c;
+  --green: #538d4e;
+  --yellow: #b59f3b;
+  --gray: #3a3a3c;
+  --accent: #4f8cff;
+  --danger: #e5534b;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #fafafa;
+    --panel: #fff;
+    --text: #18181b;
+    --muted: #6b7280;
+    --border: #d4d4d8;
+    --gray: #787c7e;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+header {
+  text-align: center;
+  padding: 14px 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+h1 {
+  margin: 0 0 8px;
+  letter-spacing: 0.2em;
+  font-size: 1.6rem;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+h1 span {
+  color: var(--green);
+}
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+nav button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  padding: 10px 22px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  font-weight: 600;
+}
+nav button.active {
+  color: var(--text);
+  border-color: var(--green);
+}
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px;
+}
+footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
+footer strong {
+  color: var(--text);
+  letter-spacing: 0.08em;
+}
+.tab {
+  display: none;
+}
+.tab.active {
+  display: block;
+}
+select,
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+}
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 12px 0 4px;
+}
+button.btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+button.btn.sec {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+button.btn.danger {
+  background: var(--danger);
+}
+button.btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 12px;
+}
+.card h3 {
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.clues {
+  margin: 0;
+  padding-left: 20px;
+}
+.clues li {
+  margin: 4px 0;
+}
+
+/* word navigator */
+.navwords {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 12px;
+}
+.arrow {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+#wordLabel {
+  min-width: 120px;
+  text-align: center;
+  font-weight: 700;
+}
+#wordLabel small {
+  display: block;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* board */
+.board-wrap {
+  position: relative;
+  margin: 16px auto;
+  width: min(100%, calc(var(--n, 5) * 62px));
+}
+#board {
+  display: grid;
+  gap: 5px;
+  width: 100%;
+}
+/* invisible input covering the board: tapping it opens the device keyboard */
+#typer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border: none;
+  padding: 0;
+  font-size: 16px; /* prevents iOS zoom on focus */
+  caret-color: transparent;
+  cursor: text;
+  z-index: 2;
+}
+.rowg {
+  display: grid;
+  grid-template-columns: repeat(var(--n), 1fr);
+  gap: 5px;
+}
+.tile {
+  aspect-ratio: 1;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.2rem, 6vw, 1.9rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  user-select: none;
+}
+.tile.filled {
+  border-color: var(--muted);
+  animation: pop 0.1s;
+}
+.tile.correct,
+.tile.present,
+.tile.absent {
+  color: #fff;
+  border-color: transparent;
+}
+.tile.correct {
+  background: var(--green);
+}
+.tile.present {
+  background: var(--yellow);
+}
+.tile.absent {
+  background: var(--gray);
+}
+.tile.flip {
+  animation: flip 0.45s ease both;
+}
+@keyframes pop {
+  50% {
+    transform: scale(1.1);
+  }
+}
+@keyframes flip {
+  0% {
+    transform: rotateX(0);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+.shake {
+  animation: shake 0.4s;
+}
+@keyframes shake {
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+#msg {
+  min-height: 1.6em;
+  text-align: center;
+  font-weight: 600;
+}
+.hint {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+/* lists */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.item:last-child {
+  border: none;
+}
+.item .info {
+  flex: 1;
+  min-width: 120px;
+}
+.item .info b {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.item .info small {
+  color: var(--muted);
+}
+.item button {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+}
+.mono {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  letter-spacing: 0.15em;
+}
+.empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 14px;
+}
+.err {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: var(--danger);
+}
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 16px 0;
+}
